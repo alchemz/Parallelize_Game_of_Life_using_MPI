@@ -1,0 +1,103 @@
+#!/bin/bash
+
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+# sampleACI-B.pbs
+#
+# Author: Adam W. Lavely
+# Date: Fall 2017
+#
+# This sample submission script uses the MPI hello world tutorial
+# by Wes Kendall: http://mpitutorial.com/tutorials/mpi-hello-world/
+#
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#	
+
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#	
+# Overview
+#
+# The PBS directives can be used in either the submission script in the
+# form listed here (#PBS -X Y) or along with the submission (qsub -X Y)
+# with no change.
+#
+# This job will be submitted on ACI-B using the command:
+# qsub sampleACI-B.pbs
+#
+# You can check on the job using the command:
+# qstat -u <username>
+#
+# Note that here #PBS is a directive; a # followed by anything else is
+# a comment.
+#
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#	
+
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#	
+# The PBS directives
+
+#-#-# The Allocation being submitted against
+#PBS -A open
+# You can submit against your allocation if more time is available.  See the onboarding document for information regarding how many processors you are able to request at a time for hte size of your allocation.  This is similar to the -q queuename on the legacy machines.  If no allocation is listed, your job will be placed on the open queue until your open limits have been reached.  In order to ensure your job goes to the open queue, please use the -A open directive.
+
+#-#-# Name of the job
+#PBS -N smpl4PSub
+# This is the name given to the job.  It is used for the name of the output and error files and is visibile when you use qstat to check the status of your job.
+
+#-#-# Amount of wall time
+#PBS -l walltime=00:02:00
+# The time required is in HH:MM:SS format. The wall time is the amount of actual time the job runs and isn't related to computational time (the actual time times the number of cores being used.) 
+
+#-#-# Number of processors, their nodal spread and the type of node
+#PBS -l nodes=4:ppn=1
+# This is the the amount of processors we ask for.  Note the different ways of asking for 4 processors: Putting them all on one node can boost the performance of  a job as the communication is on one node while allowing the scheduler to spread them among various processors may shorten the queue wait time.  Note that if you are on one node only, you can use the pbs directive -l npcus=X. 
+
+#-#-# Memory Request
+#PBS -l pmem=1gb
+# We ask for 1 GB of RAM per task (pmem).  Also available are mem (total memory), vmem (virtual memory) and pvmem (virtual memory per task).  The mem option should only be used on single node jobs. 
+
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#	
+# Prepare for, compile and run the job
+
+#-#-# Echo
+echo "#-#-#Job started on `hostname` at `date` "
+echo This job runs on the following processors:
+echo `cat $PBS_NODEFILE`
+# We output the job start time and the processor names to the output file. This can be helpful for debugging if something goes wrong.
+
+#-#-# Modules
+module purge
+module load intel/16.0.3   
+module load impi/5.1.3
+# We load the modules required.  Note that loading the same modules as were used when the code was compiled is required for proper execution. We include the purge, but would comment it out if the -v directive is used with qsub to pass along the environment variables.  Please note that there is a default module that would be loaded for gcc but it is better to used the actual module rather than the default in case the default changes.
+
+ulimit -s 10240
+
+#-#-# Directory
+echo "Current directory is `pwd`"
+cd $PBS_O_WORKDIR
+echo "Current directory is `pwd`"
+# The directory you are put in to start with is your home directory. You can change to the directory directly (cd /storage/home/...) or change to the directory you submitted from using the PBS_O_WORKDIR environment variable.
+
+#-#-# Compile
+mpicc -o mpi_hello_world.out mpi_hello_world.c
+# We compile the code within the submission script here, but this is not required.  You can compile with a previous job (or on ACI-I) and just run code within jobs.  Be sure the modules used whdn compiling and running are the same.
+
+#-#-# Echo
+echo "#-#-#Compilation completed and execution started at `date`"
+# Output the time here for possible debugging purposes.
+
+#-#-# Run
+echo "A"
+mpirun -np 4 ./mpi_hello_world.out 
+echo "B"
+mpirun -np 4 ./mpi_hello_world.out > log.mpi_hello_world.out_$PBS_JOBID
+echo "C"
+mpirun -np 4 ./mpi_hello_world.out > log.mpi_hello_world.out_$(date +"%m_%d_%Y_%H_%M")
+echo "D"
+# We run the code three different times with three different output methods: to the job output, to a logfile with the job id and to an output file with the date of running.  Use what you will have the easiest time being able to keep runs/logs straight.
+
+/usr/bin/time mpirun -np 4 ./mpi_hello_world.out 
+# We run the code one more time using the  extended time command which gives us CPU time and memory usage.  The time command (no /usr/bin/) only gives part of this.  The is helpful for debugging.  The output for the time command ends up in the error file.
+
+echo "E"
+#-#-# Echo
+echo "#-#-#Job Ended at `date`"
+# Output the time here for possible debugging purposes.
+
