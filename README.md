@@ -22,6 +22,10 @@ C: mpicc -o prog.exe -o2 helloworld.c
 
 C++: mpic++ -o prog.exe -o2 helloworld.cxx
 
+## Run the code
+mpirun -n NCPUS ./prog.exe
+- eg. mpirun -n 4 ./prog.exe
+
 ## Tutorial
 https://www.youtube.com/watch?v=RoQJNx5npF4&list=PL1OsyWvZNuL7OUtmLRAepuIlTHCt8FATk
 
