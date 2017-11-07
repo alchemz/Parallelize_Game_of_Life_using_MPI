@@ -12,6 +12,14 @@ Also, determine the time spent in inter-process communication.
 
 What fraction of the overall running time is spent in inter-process communication? How does the code scale with increasing grid size and increasing MPI process concurrencies?
 
+## Compile The Code
+C: epic -o prog.exe helloworld.c
+C++: mpic++ -o prog.exe helloworld.cxx
+
+## Final compile with optimizations
+C: mpicc -o prog.exe -o2 helloworld.c
+C++: mpic++ -o prog.exe -o2 helloworld.cxx
+
 ## Tutorial
 https://www.youtube.com/watch?v=RoQJNx5npF4&list=PL1OsyWvZNuL7OUtmLRAepuIlTHCt8FATk
 
