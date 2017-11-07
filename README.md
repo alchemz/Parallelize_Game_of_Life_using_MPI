@@ -32,4 +32,5 @@ sqsub -q mpi -n NCPUS -o output.log -r TIME -mpp RAM ./prog.exe
 
 ## Tutorial
 https://www.youtube.com/watch?v=RoQJNx5npF4&list=PL1OsyWvZNuL7OUtmLRAepuIlTHCt8FATk
+http://extremecomputingtraining.anl.gov/files/2015/03/mlife-code-jul30-830.pdf
 
