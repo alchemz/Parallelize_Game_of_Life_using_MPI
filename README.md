@@ -26,6 +26,10 @@ C++: mpic++ -o prog.exe -o2 helloworld.cxx
 mpirun -n NCPUS ./prog.exe
 - eg. mpirun -n 4 ./prog.exe
 
+# Run the code on cloud
+sqsub -q mpi -n NCPUS -o output.log -r TIME -mpp RAM ./prog.exe
+- eg. sqsub -q mpi -n 4 -o out.log -r 5m -mpp 200M ./helloworld.exe
+
 ## Tutorial
 https://www.youtube.com/watch?v=RoQJNx5npF4&list=PL1OsyWvZNuL7OUtmLRAepuIlTHCt8FATk
 
