@@ -25,6 +25,10 @@ C: mpicc -o prog.exe -o2 helloworld.c
 
 C++: mpic++ -o prog.exe -o2 helloworld.cxx
 
+# load the module purge
+module purge
+module load intel impi
+
 ## Run the code
 mpirun -n NCPUS ./prog.exe
 - eg. mpirun -n 4 ./prog.exe
