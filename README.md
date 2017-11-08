@@ -40,6 +40,9 @@ sqsub -q mpi -n NCPUS -o output.log -r TIME -mpp RAM ./prog.exe
 # Run the code with passing values
 ./prog.exe 2 3
 
+# 2. Compile	the	code	with	OpenMP	support	through	the	GNU	compiler	by using	the	-fopenmp	option:
+$ mpicc –fopenmp –o hello.exe hello.c
+
 For openmpi
 ------------
 $ module load gcc openmpi
