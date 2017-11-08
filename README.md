@@ -30,6 +30,21 @@ mpirun -n NCPUS ./prog.exe
 sqsub -q mpi -n NCPUS -o output.log -r TIME -mpp RAM ./prog.exe
 - eg. sqsub -q mpi -n 4 -o out.log -r 5m -mpp 200M ./helloworld.exe
 
+For openmpi,
+
+$ module load gcc openmpi
+
+Intel MPI,
+
+$ module load intel impi
+
+MPICH,
+
+$module load gcc mpich
+
+(you can swap out the gcc compiler for pgi in the above module load commands).
+
+You can also view all the available modules using the command "module spider". Please let me know if this takes care of your issue and if you have any additional questions.
 ## Tutorial
 https://www.youtube.com/watch?v=RoQJNx5npF4&list=PL1OsyWvZNuL7OUtmLRAepuIlTHCt8FATk
 http://extremecomputingtraining.anl.gov/files/2015/03/mlife-code-jul30-830.pdf
