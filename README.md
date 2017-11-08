@@ -10,7 +10,9 @@ Use MPI_Sendrecv for inter-process communication of boundary cells. Vary the num
 
 Also, determine the time spent in inter-process communication.
 
-What fraction of the overall running time is spent in inter-process communication? How does the code scale with increasing grid size and increasing MPI process concurrencies?
+What fraction of the overall running time is spent in inter-process communication?
+------------------------------------------
+How does the code scale with increasing grid size and increasing MPI process concurrencies?
 -------------------------------------------
 
 ## Compile The Code
