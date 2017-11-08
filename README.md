@@ -30,16 +30,16 @@ mpirun -n NCPUS ./prog.exe
 sqsub -q mpi -n NCPUS -o output.log -r TIME -mpp RAM ./prog.exe
 - eg. sqsub -q mpi -n 4 -o out.log -r 5m -mpp 200M ./helloworld.exe
 
-For openmpi,
-
+For openmpi
+------------
 $ module load gcc openmpi
 
-Intel MPI,
-
+Intel MPI
+------------
 $ module load intel impi
 
-MPICH,
-
+MPICH
+-----------------
 $module load gcc mpich
 
 (you can swap out the gcc compiler for pgi in the above module load commands).
