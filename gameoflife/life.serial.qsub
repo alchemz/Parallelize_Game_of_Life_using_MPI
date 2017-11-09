@@ -1,0 +1,14 @@
+#!/bin/bash
+#PBS -l walltime=5:00
+#PBS -A open
+#PBS -N l100.serial
+
+# this ensures your job runs from the directory from which you run the qsub command
+cd $PBS_O_WORKDIR
+
+# load module
+module purge
+module load intel impi
+
+# run the code
+time ./gameoflife.serial -r 100 -c 100 -t 100

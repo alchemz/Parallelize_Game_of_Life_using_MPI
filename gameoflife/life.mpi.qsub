@@ -1,0 +1,15 @@
+#!/bin/bash
+#PBS -l nodes=4:ppn=4
+#PBS -l walltime=5:00
+#PBS -A open
+#PBS -N l1600.mpi
+
+# this ensures your job runs from the directory from which you run the qsub command
+cd $PBS_O_WORKDIR
+
+# load module
+module purge
+module load intel impi
+
+# run the code
+ time mpirun -np 16 -machinefile $PBS_NODEFILE ./gameoflife.mpi -r 1600 -c 100 -t 100

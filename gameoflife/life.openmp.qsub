@@ -1,0 +1,16 @@
+#!/bin/bash
+#PBS -l walltime=5:00
+#PBS -A open
+#PBS -N l100.openmp
+
+# this ensures your job runs from the directory from which you run the qsub command
+cd $PBS_O_WORKDIR
+
+# load module
+module purge
+module load intel impi
+
+export OMP_NUM_THREADS=8
+
+# run the code
+time ./gameoflife.openmp -r 100 -c 100 -t 100
